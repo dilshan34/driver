@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "740784762202",
+    "project_id": "gps-tracker-319413",
+    "storage_bucket": "gps-tracker-319413.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:740784762202:android:cc1b9e61be8952fe0e9763",
+        "android_client_info": {
+          "package_name": "com.example.driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "740784762202-equeafi95qdhp5fk9oktkmtrm66no49u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKR6hJKzDn80iBWkE9LzHPQT3lod53ads"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "740784762202-equeafi95qdhp5fk9oktkmtrm66no49u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
