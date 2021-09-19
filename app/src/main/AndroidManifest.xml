@@ -18,6 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Driver"
         android:usesCleartextTraffic="true">
+
         <activity android:name=".ui.layout.dashboard" />
         <activity android:name=".ui.layout.splash_screen" />
         <activity android:name=".ui.layout.Signup" />
@@ -36,6 +37,7 @@
         <activity
             android:name=".ui.layout.Login"
             android:label="@string/title_activity_maps" />
+        <activity android:name=".ui.layout.UserMapActivity"></activity>
         <activity android:name=".ui.layout.MapsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
