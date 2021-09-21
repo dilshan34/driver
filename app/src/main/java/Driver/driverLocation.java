@@ -1,4 +1,4 @@
-package com.example.driver.ui.layout;
+package Driver;
 
 public class driverLocation  {
     private double latitude;

@@ -1,7 +1,6 @@
-package com.example.driver.ui.layout;
+package Driver;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
@@ -12,11 +11,19 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.widget.Button;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.driver.R;
-import com.example.driver.databinding.ActivityMapsBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -26,45 +33,113 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.example.driver.databinding.ActivityMapsBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
-public class UserMapActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-    private Button startbtn,stop;
+    private ImageButton emergency;
     private DatabaseReference reference;
     private LocationManager manager;
     Marker myMarker;
+    private RequestQueue mRequestQue;
+    private String URL = "https://fcm.googleapis.com/fcm/send";
 
     private final int MIN_TIME = 1000;
     private final int MIN_DISTANCE = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_map);
+        setContentView(R.layout.activity_maps);
+
+        emergency = (ImageButton) findViewById(R.id.emergency);
+
 
         manager = (LocationManager) getSystemService(LOCATION_SERVICE);
         reference= FirebaseDatabase.getInstance().getReference().child("driver");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.usermap);
+                .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        mRequestQue = Volley.newRequestQueue(this);
+        FirebaseMessaging.getInstance().subscribeToTopic("news");
 
 
         getLocationUpdate();
         readChanges();
+
+        emergency.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendNotification();
+            }
+        });
+
+
+    }
+
+    public void sendNotification(){
+        JSONObject mainObj = new JSONObject();
+        try {
+            mainObj.put("to","/topics/"+"news");
+            JSONObject notificationObj = new JSONObject();
+            notificationObj.put("title","Emergency");
+            notificationObj.put("body","Vehicle is broken");
+
+            mainObj.put("notification",notificationObj);
+
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
+                    mainObj,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                            Log.d("MUR", "onResponse: ");
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("MUR", "onError: "+error.networkResponse);
+                }
+            }
+            ){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String,String> header = new HashMap<>();
+                    header.put("content-type","application/json");
+                    header.put("authorization","key=AAAArHo2bVo:APA91bH6ezUoeT4mXRjOsTujQnte-K5mWrnXKC8S8GatUJD-RDGJcA9qI64ZCkl-mA2_UsbITWdREMOfCaI5vnud7xo7ls2L07AB-xF8qYtmjU4s13VtQ2XtFdpIoRwtCOeScFoFr0pE");
+                    Log.e("TAG", "getHeaders: "+header );
+                    return header;
+                }
+            };
+            mRequestQue.add(request);
+        }
+        catch (JSONException e)
+
+        {
+            e.printStackTrace();
+        }
     }
 
     private void readChanges() {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull  DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
                     try {
                         driverLocation location= dataSnapshot.getValue(driverLocation.class);
@@ -83,14 +158,14 @@ public class UserMapActivity extends FragmentActivity implements OnMapReadyCallb
 
                         }
                     }catch (Exception e){
-                        Toast.makeText(UserMapActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MapsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(@NonNull  DatabaseError error) {
 
             }
         });
@@ -115,20 +190,26 @@ public class UserMapActivity extends FragmentActivity implements OnMapReadyCallb
     }
 
     @Override
-    public void onLocationChanged(@NonNull Location location) {
-
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 101){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                getLocationUpdate();
+            }else{
+                Toast.makeText(this, "Permission Required", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
-    @Override
-    public void onProviderEnabled(@NonNull String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(@NonNull String provider) {
-
-    }
-
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+     * we just add a marker near Sydney, Australia.
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -140,6 +221,34 @@ public class UserMapActivity extends FragmentActivity implements OnMapReadyCallb
         mMap.addMarker(new MarkerOptions().position(weerawila).title("User"));
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setAllGesturesEnabled(true);
+
+
+
+
+
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        if (location != null){
+            saveLocation(location);
+        }
+        else{
+            Toast.makeText(this, "no locations", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void saveLocation(Location location) {
+        reference.setValue(location);
+    }
+
+    @Override
+    public void onProviderEnabled(@NonNull String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(@NonNull String provider) {
 
     }
 

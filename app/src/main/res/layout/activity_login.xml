@@ -85,7 +85,6 @@
 
             <EditText
                 android:id="@+id/txtpassword"
-                android:textColor="@color/border"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
@@ -102,14 +101,9 @@
                 android:paddingTop="7dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="7dp"
+                android:textColor="@color/border"
                 android:textColorHint="@color/border"
                 android:textSize="15sp" />
-
-
-
-
-
-
 
             <LinearLayout
                 android:layout_width="match_parent"

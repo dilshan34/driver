@@ -1,4 +1,4 @@
-package com.example.driver.ui.layout;
+package User;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -11,11 +11,12 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.driver.R;
+import com.example.driver.databinding.ActivityMapsBinding;
+import Driver.driverLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -25,14 +26,14 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.example.driver.databinding.ActivityMapsBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
+public class UserMapActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
@@ -43,40 +44,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private final int MIN_TIME = 1000;
     private final int MIN_DISTANCE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
-
-        startbtn = (Button) findViewById(R.id.startbtn);
-        stop = (Button) findViewById(R.id.stop);
-
+        setContentView(R.layout.activity_user_map);
 
         manager = (LocationManager) getSystemService(LOCATION_SERVICE);
         reference= FirebaseDatabase.getInstance().getReference().child("driver");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.usermap);
         mapFragment.getMapAsync(this);
+
+        FirebaseMessaging.getInstance().subscribeToTopic("news");
 
 
         getLocationUpdate();
-
-
-        startbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                readChanges();
-            }
-        });
-
-
+        readChanges();
     }
 
     private void readChanges() {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull  DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
                     try {
                         driverLocation location= dataSnapshot.getValue(driverLocation.class);
@@ -86,8 +77,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                             // myMarker.setPosition(new LatLng(6.1429,81.1212));
                             myMarker.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
-                            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(),location.getLongitude())));
-                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 12.0f));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(6.2421,81.2292)));
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(6.2421,81.2292), 12.0f));
                             Circle circle = mMap.addCircle(new CircleOptions()
                                     .center(new  LatLng(6.2421,81.2292))
                                     .radius(1000)
@@ -95,14 +86,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                         }
                     }catch (Exception e){
-                        Toast.makeText(MapsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserMapActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull  DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
@@ -127,26 +118,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == 101){
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                getLocationUpdate();
-            }else{
-                Toast.makeText(this, "Permission Required", Toast.LENGTH_SHORT).show();
-            }
-        }
+    public void onLocationChanged(@NonNull Location location) {
+
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+    @Override
+    public void onProviderEnabled(@NonNull String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(@NonNull String provider) {
+
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -158,34 +143,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(weerawila).title("User"));
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setAllGesturesEnabled(true);
-
-
-
-
-
-    }
-
-    @Override
-    public void onLocationChanged(@NonNull Location location) {
-        if (location != null){
-            saveLocation(location);
-        }
-        else{
-            Toast.makeText(this, "no locations", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void saveLocation(Location location) {
-        reference.setValue(location);
-    }
-
-    @Override
-    public void onProviderEnabled(@NonNull String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(@NonNull String provider) {
 
     }
 

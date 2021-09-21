@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.driver">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -19,7 +20,8 @@
         android:theme="@style/Theme.Driver"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".ui.layout.dashboard" />
+        <activity android:name=".ui.layout.EmergencyActivity" />
+        <activity android:name="Driver.MapsActivity" />
         <activity android:name=".ui.layout.splash_screen" />
         <activity android:name=".ui.layout.Signup" />
         <!--
@@ -37,8 +39,8 @@
         <activity
             android:name=".ui.layout.Login"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".ui.layout.UserMapActivity"></activity>
-        <activity android:name=".ui.layout.MapsActivity">
+        <activity android:name="User.UserMapActivity" />
+        <activity android:name=".ui.layout.dashboard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

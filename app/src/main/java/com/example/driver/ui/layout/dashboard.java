@@ -1,27 +1,47 @@
 package com.example.driver.ui.layout;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
+import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
 
 import com.example.driver.R;
-import com.google.android.material.navigation.NavigationView;
+
+import Driver.MapsActivity;
+import User.UserMapActivity;
 
 public class dashboard extends AppCompatActivity {
 
     private DrawerLayout drawer;
+    CardView user,driver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        user = findViewById(R.id.user);
+        driver = findViewById(R.id.driver);
+
+        user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(dashboard.this, UserMapActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        driver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(dashboard.this, MapsActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
 
