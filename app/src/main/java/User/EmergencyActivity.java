@@ -1,13 +1,12 @@
-package com.example.driver.ui.layout;
+package User;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -25,56 +24,45 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import Driver.MapsActivity;
-import User.UserMapActivity;
-
-public class dashboard extends AppCompatActivity {
-
-    CardView user,driver;
+public class EmergencyActivity extends AppCompatActivity {
     private RequestQueue mRequestQue;
     private String URL = "https://fcm.googleapis.com/fcm/send";
+    ImageButton btnSend;
+    EditText edtMessage;
+    String getValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        setContentView(R.layout.activity_emergency);
 
-        user = findViewById(R.id.user);
-        driver = findViewById(R.id.driver);
+        btnSend = findViewById(R.id.btnSend);
+        edtMessage = findViewById(R.id.edtMessage);
+
+
 
         mRequestQue = Volley.newRequestQueue(this);
         FirebaseMessaging.getInstance().subscribeToTopic("news");
 
-        user.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(dashboard.this, UserMapActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
-        driver.setOnClickListener(new View.OnClickListener() {
+        btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendNotification();
-                Intent intent = new Intent(dashboard.this, MapsActivity.class);
-                startActivity(intent);
+
 
             }
         });
-
-
-
     }
 
     public void sendNotification(){
+        getValue = edtMessage.getText().toString();
+        Log.e("TAG", "onClick: "+getValue );
         JSONObject mainObj = new JSONObject();
         try {
             mainObj.put("to","/topics/"+"news");
             JSONObject notificationObj = new JSONObject();
-            notificationObj.put("title","Taxi");
-            notificationObj.put("body","Vehicle is start from the destination");
+            notificationObj.put("title","Dilshan Sachinthana");
+            notificationObj.put("body",getValue);
 
             mainObj.put("notification",notificationObj);
 
@@ -111,5 +99,4 @@ public class dashboard extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
 }

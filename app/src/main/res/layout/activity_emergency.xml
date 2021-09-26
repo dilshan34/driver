@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="5"
-    tools:context=".ui.layout.EmergencyActivity">
+    tools:context="User.EmergencyActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -62,8 +62,7 @@
                 android:drawablePadding="40dp"
                 android:elevation="8dp"
                 android:fontFamily="serif"
-                android:text="Vehicle is broken"
-                android:inputType="number"
+                android:hint="Type message"
                 android:paddingLeft="20dp"
                 android:paddingTop="7dp"
                 android:paddingRight="10dp"

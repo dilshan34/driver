@@ -29,7 +29,7 @@
         android:src="@drawable/warning"
         android:textColor="#ffffff" />
     <ImageButton
-        android:id="@+id/btnAllExercises"
+
         android:src="@drawable/chat"
         android:layout_width="50dp"
         android:layout_height="50dp"

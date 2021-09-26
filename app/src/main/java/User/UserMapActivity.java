@@ -5,13 +5,16 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.driver.R;
@@ -41,6 +44,7 @@ public class UserMapActivity extends FragmentActivity implements OnMapReadyCallb
     private DatabaseReference reference;
     private LocationManager manager;
     Marker myMarker;
+    ImageButton chat;
 
     private final int MIN_TIME = 1000;
     private final int MIN_DISTANCE = 1;
@@ -49,6 +53,8 @@ public class UserMapActivity extends FragmentActivity implements OnMapReadyCallb
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_map);
+
+        chat = findViewById(R.id.chat);
 
         manager = (LocationManager) getSystemService(LOCATION_SERVICE);
         reference= FirebaseDatabase.getInstance().getReference().child("driver");
@@ -62,6 +68,14 @@ public class UserMapActivity extends FragmentActivity implements OnMapReadyCallb
 
         getLocationUpdate();
         readChanges();
+
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserMapActivity.this,EmergencyActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void readChanges() {

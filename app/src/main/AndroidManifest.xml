@@ -20,7 +20,7 @@
         android:theme="@style/Theme.Driver"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".ui.layout.EmergencyActivity" />
+        <activity android:name="User.EmergencyActivity" />
         <activity android:name="Driver.MapsActivity" />
         <activity android:name=".ui.layout.splash_screen" />
         <activity android:name=".ui.layout.Signup" />
