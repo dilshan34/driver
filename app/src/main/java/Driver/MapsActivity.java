@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -40,6 +41,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.maps.android.SphericalUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,12 +53,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-    private ImageButton emergency;
+    private ImageButton emergency,btnDistance;
     private DatabaseReference reference;
     private LocationManager manager;
     Marker myMarker;
     private RequestQueue mRequestQue;
     private String URL = "https://fcm.googleapis.com/fcm/send";
+    private TextView distancePoint;
+    LatLng sydney = new LatLng(-34, 151);
+    LatLng weerawila = new LatLng(6.255709999999999,81.22725);
+    Double distance;
 
     private final int MIN_TIME = 1000;
     private final int MIN_DISTANCE = 1;
@@ -66,6 +72,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
         emergency = (ImageButton) findViewById(R.id.emergency);
+        btnDistance = (ImageButton) findViewById(R.id.btnDistance);
+        distancePoint = findViewById(R.id.distancePoint);
 
 
         manager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -86,6 +94,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 sendNotification();
+            }
+        });
+
+        btnDistance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                distance = SphericalUtil.computeDistanceBetween(sydney, weerawila);
+                Toast.makeText(MapsActivity.this, "Distance between Sydney and Brisbane is \n " + String.format("%.2f", distance / 1000) + "km", Toast.LENGTH_SHORT).show();
+                distancePoint.setText( String.format("%.2f" +"KM", distance / 1000));
             }
         });
 
@@ -136,6 +153,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+
+
     private void readChanges() {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -151,10 +170,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             myMarker.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(),location.getLongitude())));
                             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 12.0f));
-                            Circle circle = mMap.addCircle(new CircleOptions()
-                                    .center(new  LatLng(6.2421,81.2292))
-                                    .radius(1000)
-                                    .strokeColor(Color.RED));
+//                            Circle circle = mMap.addCircle(new CircleOptions()
+//                                    .center(new  LatLng(6.2421,81.2292))
+//                                    .radius(1000)
+//                                    .strokeColor(Color.RED));
+                            distance = SphericalUtil.computeDistanceBetween(new LatLng(location.getLatitude(),location.getLongitude()), weerawila);
+                           // Toast.makeText(MapsActivity.this, "Distance between Sydney and Brisbane is \n " + String.format("%.2f", distance / 1000) + "km", Toast.LENGTH_SHORT).show();
+                            distancePoint.setText( String.format("%.2f" +"KM", distance / 1000));
 
                         }
                     }catch (Exception e){
@@ -215,8 +237,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        LatLng weerawila = new LatLng(6.2421,81.2292);
+
         myMarker=  mMap.addMarker(new MarkerOptions().position(sydney).title("Driver"));
         mMap.addMarker(new MarkerOptions().position(weerawila).title("User"));
         mMap.getUiSettings().setZoomControlsEnabled(true);
@@ -232,6 +253,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onLocationChanged(@NonNull Location location) {
         if (location != null){
             saveLocation(location);
+
         }
         else{
             Toast.makeText(this, "no locations", Toast.LENGTH_SHORT).show();

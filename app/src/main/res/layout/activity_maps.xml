@@ -16,6 +16,13 @@
     android:layout_weight="5"
     android:id="@+id/map"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:text="fb"
+        android:id="@+id/distancePoint"/>
+
     <ImageButton
         android:id="@+id/emergency"
         android:layout_width="50dp"
@@ -29,7 +36,7 @@
         android:src="@drawable/warning"
         android:textColor="#ffffff" />
     <ImageButton
-
+        android:id="@+id/btnDistance"
         android:src="@drawable/chat"
         android:layout_width="50dp"
         android:layout_height="50dp"

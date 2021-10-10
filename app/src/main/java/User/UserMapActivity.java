@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.driver.R;
@@ -35,6 +36,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.maps.android.SphericalUtil;
 
 public class UserMapActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
@@ -45,6 +47,9 @@ public class UserMapActivity extends FragmentActivity implements OnMapReadyCallb
     private LocationManager manager;
     Marker myMarker;
     ImageButton chat;
+    private TextView userDistance;
+    Double distance;
+    LatLng weerawila = new LatLng(6.255709999999999,81.22725);
 
     private final int MIN_TIME = 1000;
     private final int MIN_DISTANCE = 1;
@@ -57,6 +62,8 @@ public class UserMapActivity extends FragmentActivity implements OnMapReadyCallb
         chat = findViewById(R.id.chat);
 
         manager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        userDistance = findViewById(R.id.userDistance);
+
         reference= FirebaseDatabase.getInstance().getReference().child("driver");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -91,12 +98,25 @@ public class UserMapActivity extends FragmentActivity implements OnMapReadyCallb
 
                             // myMarker.setPosition(new LatLng(6.1429,81.1212));
                             myMarker.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
-                            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(6.2421,81.2292)));
-                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(6.2421,81.2292), 12.0f));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(weerawila));
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(weerawila, 12.0f));
                             Circle circle = mMap.addCircle(new CircleOptions()
-                                    .center(new  LatLng(6.2421,81.2292))
+                                    .center(weerawila)
                                     .radius(1000)
                                     .strokeColor(Color.RED));
+                            distance = SphericalUtil.computeDistanceBetween(new LatLng(location.getLatitude(),location.getLongitude()), weerawila);
+                            // Toast.makeText(MapsActivity.this, "Distance between Sydney and Brisbane is \n " + String.format("%.2f", distance / 1000) + "km", Toast.LENGTH_SHORT).show();
+
+                            //convert to km
+
+                            String km = String.format("%.2f" +"KM", distance / 1000);
+
+                            userDistance.setText(km );
+
+                            if((distance / 1000) == 1){
+                                Toast.makeText(UserMapActivity.this, "Vehicle in 1km ahead \n ", Toast.LENGTH_SHORT).show();
+
+                            }
 
                         }
                     }catch (Exception e){
@@ -152,7 +172,7 @@ public class UserMapActivity extends FragmentActivity implements OnMapReadyCallb
 
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
-        LatLng weerawila = new LatLng(6.2421,81.2292);
+       // LatLng weerawila = new LatLng(6.255709999999999,81.22725);
         myMarker=  mMap.addMarker(new MarkerOptions().position(sydney).title("Driver"));
         mMap.addMarker(new MarkerOptions().position(weerawila).title("User"));
         mMap.getUiSettings().setZoomControlsEnabled(true);

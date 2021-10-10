@@ -16,6 +16,15 @@
         android:layout_weight="5"
         android:id="@+id/usermap"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/userDistance"
+        android:textSize="25dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"
+        />
+
     <ImageButton
         android:id="@+id/chat"
         android:layout_width="50dp"
