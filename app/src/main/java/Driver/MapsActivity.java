@@ -46,8 +46,11 @@ import com.google.maps.android.SphericalUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
+
+import User.UserMapActivity;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
@@ -153,6 +156,50 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    public void sendDistanceAlert(){
+        JSONObject mainObj = new JSONObject();
+        try {
+            mainObj.put("to","/topics/"+"news");
+            JSONObject notificationObj = new JSONObject();
+            notificationObj.put("title","Driver");
+            notificationObj.put("body","Vehicle is 1km ahead");
+
+            mainObj.put("notification",notificationObj);
+
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
+                    mainObj,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                            Log.d("MUR", "onResponse: ");
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("MUR", "onError: "+error.networkResponse);
+                }
+            }
+            ){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String,String> header = new HashMap<>();
+                    header.put("content-type","application/json");
+                    header.put("authorization","key=AAAArHo2bVo:APA91bH6ezUoeT4mXRjOsTujQnte-K5mWrnXKC8S8GatUJD-RDGJcA9qI64ZCkl-mA2_UsbITWdREMOfCaI5vnud7xo7ls2L07AB-xF8qYtmjU4s13VtQ2XtFdpIoRwtCOeScFoFr0pE");
+                    Log.e("TAG", "getHeaders: "+header );
+                    return header;
+                }
+            };
+            mRequestQue.add(request);
+        }
+        catch (JSONException e)
+
+        {
+            e.printStackTrace();
+        }
+    }
+
 
 
     private void readChanges() {
@@ -177,6 +224,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             distance = SphericalUtil.computeDistanceBetween(new LatLng(location.getLatitude(),location.getLongitude()), weerawila);
                            // Toast.makeText(MapsActivity.this, "Distance between Sydney and Brisbane is \n " + String.format("%.2f", distance / 1000) + "km", Toast.LENGTH_SHORT).show();
                             distancePoint.setText( String.format("%.2f" +"KM", distance / 1000));
+
+                            int value = (int)(distance / 1000);
+                            // Toast.makeText(UserMapActivity.this, "Vehicle in 1km ahead \n "+km, Toast.LENGTH_SHORT).show();
+
+                            float y1 = (float) (distance / 1000);
+                            DecimalFormat df = new DecimalFormat("#.0");
+                            y1 = Float.valueOf(df.format(y1));
+                           // Toast.makeText(MapsActivity.this, "Vehicle in 1km ahead \n "+y1, Toast.LENGTH_SHORT).show();
+
+                            if(y1 == 1 ){
+                                sendDistanceAlert();
+                                Toast.makeText(MapsActivity.this, "Vehicle in 1km ahead \n ", Toast.LENGTH_SHORT).show();
+
+                            }
 
                         }
                     }catch (Exception e){
