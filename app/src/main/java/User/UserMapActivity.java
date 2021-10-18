@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.example.driver.R;
 import com.example.driver.databinding.ActivityMapsBinding;
+
+import Driver.MapsActivity;
 import Driver.driverLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,6 +39,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.maps.android.SphericalUtil;
+
+import java.text.DecimalFormat;
 
 public class UserMapActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
@@ -107,16 +111,18 @@ public class UserMapActivity extends FragmentActivity implements OnMapReadyCallb
                             distance = SphericalUtil.computeDistanceBetween(new LatLng(location.getLatitude(),location.getLongitude()), weerawila);
                             // Toast.makeText(MapsActivity.this, "Distance between Sydney and Brisbane is \n " + String.format("%.2f", distance / 1000) + "km", Toast.LENGTH_SHORT).show();
 
-                            //convert to km
+                           
 
-                            String km = String.format("%.2f" +"KM", distance / 1000);
 
                             userDistance.setText(String.format("%.2f" +"KM", distance / 1000) );
 
-                            int value = (int)(distance / 1000);
-                          // Toast.makeText(UserMapActivity.this, "Vehicle in 1km ahead \n "+km, Toast.LENGTH_SHORT).show();
+                            float y1 = (float) (distance / 1000);
+                            DecimalFormat df = new DecimalFormat("#.0");
+                            y1 = Float.valueOf(df.format(y1));
+                            // Toast.makeText(MapsActivity.this, "Vehicle in 1km ahead \n "+y1, Toast.LENGTH_SHORT).show();
 
-                            if(value < 1){
+                            if(y1 == 1 ){
+
                                 Toast.makeText(UserMapActivity.this, "Vehicle in 1km ahead \n ", Toast.LENGTH_SHORT).show();
 
                             }

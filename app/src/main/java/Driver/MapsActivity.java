@@ -235,7 +235,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                             if(y1 == 1 ){
                                 sendDistanceAlert();
-                                Toast.makeText(MapsActivity.this, "Vehicle in 1km ahead \n ", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(MapsActivity.this, "Vehicle in 1km ahead \n ", Toast.LENGTH_SHORT).show();
 
                             }
 
