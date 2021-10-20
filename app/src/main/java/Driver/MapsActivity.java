@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -51,6 +52,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import User.UserMapActivity;
+import util.ReceiveNotificationActivity;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
@@ -78,6 +80,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnDistance = (ImageButton) findViewById(R.id.btnDistance);
         distancePoint = findViewById(R.id.distancePoint);
 
+        if (getIntent().hasExtra("category")){
+            Intent intent = new Intent(MapsActivity.this, ReceiveNotificationActivity.class);
+            intent.putExtra("category",getIntent().getStringExtra("category"));
+            intent.putExtra("brandId",getIntent().getStringExtra("brandId"));
+            startActivity(intent);
+        }
 
         manager = (LocationManager) getSystemService(LOCATION_SERVICE);
         reference= FirebaseDatabase.getInstance().getReference().child("driver");
@@ -96,7 +104,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         emergency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendNotification();
+                sendNotificationDriver();
             }
         });
 
@@ -112,7 +120,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    public void sendNotification(){
+    public void sendNotificationDriver(){
         JSONObject mainObj = new JSONObject();
         try {
             mainObj.put("to","/topics/"+"news");
@@ -120,7 +128,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             notificationObj.put("title","Emergency");
             notificationObj.put("body","Vehicle is broken");
 
+            JSONObject extraData = new JSONObject();
+            extraData.put("brandId","puma");
+            extraData.put("category","Shoes");
+
             mainObj.put("notification",notificationObj);
+            mainObj.put("data",extraData);
+
 
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
