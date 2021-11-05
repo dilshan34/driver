@@ -68,6 +68,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LatLng sydney = new LatLng(-34, 151);
     LatLng weerawila = new LatLng(6.255709999999999,81.22725);
     Double distance;
+    Marker userMarker;
 
     private final int MIN_TIME = 1000;
     private final int MIN_DISTANCE = 1;
@@ -252,6 +253,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 //Toast.makeText(MapsActivity.this, "Vehicle in 1km ahead \n ", Toast.LENGTH_SHORT).show();
 
                             }
+                            if(y1 == 0 ){
+                               Toast.makeText(MapsActivity.this, "Vehicle in location \n ", Toast.LENGTH_SHORT).show();
+                                userMarker.remove();
+                            }
 
                         }
                     }catch (Exception e){
@@ -314,9 +319,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in Sydney and move the camera
 
         myMarker=  mMap.addMarker(new MarkerOptions().position(sydney).title("Driver"));
-        mMap.addMarker(new MarkerOptions().position(weerawila).title("User"));
+        userMarker = mMap.addMarker(new MarkerOptions().position(weerawila).title("User"));
+
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setAllGesturesEnabled(true);
+
 
 
 

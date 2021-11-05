@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="Driver.dashboard">
+    tools:context="User.UserDashboard">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,8 +24,9 @@
             android:textSize="25sp"
             app:fontFamily="@font/chango_regular"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
-            app:layout_constraintStart_toStartOf="parent"/>
-         <ImageView
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints" />
+        <ImageView
             android:id="@+id/imageView"
             android:layout_width="0dp"
             android:layout_height="160dp"
@@ -34,6 +36,50 @@
             app:layout_constraintStart_toEndOf="@+id/textView"
             app:srcCompat="@drawable/login_pic"
             tools:ignore="MissingConstraints" />
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="175dp"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/userDashboard"
+                android:layout_width="180dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="10dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+
+                    android:background="@drawable/ripple_effect"
+                    android:layout_gravity="center"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/textView6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/bus1"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:text="Driver Location"
+                        android:textSize="24sp"
+                        app:fontFamily="@font/regular" />
+                    <ImageView
+                        android:id="@+id/bus1"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="15dp"
+                        app:srcCompat="@drawable/user_map" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
@@ -78,50 +124,8 @@
 
 
         </LinearLayout>
-        <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_height="175dp"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-            <androidx.cardview.widget.CardView
-                android:id="@+id/user"
-                android:layout_width="160dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="10dp">
-                <RelativeLayout
-                    android:layout_width="match_parent"
 
-                    android:background="@drawable/ripple_effect"
-                    android:layout_gravity="center"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:id="@+id/textView6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/bus1"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="10dp"
-                        android:text="User"
-                        android:textSize="24sp"
-                        app:fontFamily="@font/regular" />
-                    <ImageView
-                        android:id="@+id/bus1"
-                        android:layout_width="75dp"
-                        android:layout_height="75dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="15dp"
-                        app:srcCompat="@drawable/user_map" />
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>

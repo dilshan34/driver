@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Driver"
         android:usesCleartextTraffic="true">
-        <activity android:name="util.ReceiveNotificationActivity"></activity>
+        <activity android:name="User.UserDashboard"></activity>
+        <activity android:name="util.ReceiveNotificationActivity" />
 
         <service
             android:name="util.MyFirebaseMessagingService"
@@ -31,15 +32,16 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_launcher_background" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <!--
+ Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
 
         <activity android:name="User.EmergencyActivity" />
         <activity android:name="Driver.MapsActivity" />
-        <activity android:name=".ui.layout.splash_screen" />
         <activity android:name=".ui.layout.Signup" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -57,7 +59,8 @@
             android:name=".ui.layout.Login"
             android:label="@string/title_activity_maps" />
         <activity android:name="User.UserMapActivity" />
-        <activity android:name=".ui.layout.dashboard">
+        <activity android:name="Driver.dashboard" />
+        <activity android:name=".ui.layout.splash_screen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,8 +1,7 @@
-package com.example.driver.ui.layout;
+package User;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,10 +25,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Driver.MapsActivity;
-import User.UserMapActivity;
+import Driver.dashboard;
 
-public class dashboard extends AppCompatActivity {
-
+public class UserDashboard extends AppCompatActivity {
     CardView user,driver;
     private RequestQueue mRequestQue;
     private String URL = "https://fcm.googleapis.com/fcm/send";
@@ -37,9 +35,9 @@ public class dashboard extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        setContentView(R.layout.activity_user_dashboard);
 
-        user = findViewById(R.id.user);
+        user = findViewById(R.id.userDashboard);
         driver = findViewById(R.id.driver);
 
         mRequestQue = Volley.newRequestQueue(this);
@@ -48,21 +46,21 @@ public class dashboard extends AppCompatActivity {
         user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(dashboard.this, UserMapActivity.class);
+                Intent intent = new Intent(UserDashboard.this, UserMapActivity.class);
                 startActivity(intent);
 
             }
         });
 
-        driver.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendNotification();
-                Intent intent = new Intent(dashboard.this, MapsActivity.class);
-                startActivity(intent);
-
-            }
-        });
+//        driver.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                sendNotification();
+//                Intent intent = new Intent(dashboard.this, MapsActivity.class);
+//                startActivity(intent);
+//
+//            }
+//        });
 
 
 
@@ -111,5 +109,4 @@ public class dashboard extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
 }

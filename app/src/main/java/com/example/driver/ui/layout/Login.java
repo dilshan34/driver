@@ -30,7 +30,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import Driver.driverLocation;
+import Driver.dashboard;
+import User.UserDashboard;
 import util.constant;
 
 public class Login extends AppCompatActivity {
@@ -92,26 +93,32 @@ public class Login extends AppCompatActivity {
                             Log.e("response", "onResponse: "+response );
                             JSONArray jsonArray = new JSONArray(response);
                             JSONObject jsonObject=jsonArray.getJSONObject(0);
-                            String code=jsonObject.getString("code");
+                            String code=jsonObject.getString("type");
                             Log.e("Response", "onResponse: "+code );
 
-                            if(code.equals("false"))
+                            if(code.equals("Driver"))
                             {
-                                Log.e("response", "if " );
-                                Toast.makeText(Login.this,"Login Error",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Login.this,"Login Success",Toast.LENGTH_SHORT).show();
+
+                                Intent intent=new Intent(Login.this, dashboard.class);
+                                intent.putExtra("nic",nic);
+                                startActivity(intent);
+
 
 
                             }
-                            else {
-                                Log.e("response", "else " );
-                                nic=jsonObject.getString("nic");
-
-
+                            else if(code.equals("Employee"))
+                            {
                                 Toast.makeText(Login.this,"Login Success",Toast.LENGTH_SHORT).show();
 
-                                Intent intent=new Intent(Login.this, driverLocation.class);
+                                Intent intent=new Intent(Login.this, UserDashboard.class);
                                 intent.putExtra("nic",nic);
                                 startActivity(intent);
+                            }
+                            else {
+                                Log.e("response", "if " );
+                                Toast.makeText(Login.this,"Login Error",Toast.LENGTH_SHORT).show();
+
 
 
                             }
