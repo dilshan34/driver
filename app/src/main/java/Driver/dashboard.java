@@ -16,6 +16,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.driver.R;
+import com.example.driver.ui.layout.Login;
+import com.example.driver.ui.layout.Profile;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
@@ -28,7 +30,7 @@ import User.UserMapActivity;
 
 public class dashboard extends AppCompatActivity {
 
-    CardView user,driver;
+    CardView user,driver,driverUser,driverLogout;
     private RequestQueue mRequestQue;
     private String URL = "https://fcm.googleapis.com/fcm/send";
 
@@ -37,20 +39,15 @@ public class dashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        user = findViewById(R.id.user);
+
         driver = findViewById(R.id.driver);
+        driverUser = findViewById(R.id.driverUser);
+        driverLogout = findViewById(R.id.driverLogout);
 
         mRequestQue = Volley.newRequestQueue(this);
         FirebaseMessaging.getInstance().subscribeToTopic("news");
 
-        user.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(dashboard.this, UserMapActivity.class);
-                startActivity(intent);
 
-            }
-        });
 
         driver.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +56,27 @@ public class dashboard extends AppCompatActivity {
                 Intent intent = new Intent(dashboard.this, MapsActivity.class);
                 startActivity(intent);
 
+                String id = getIntent().getStringExtra("nic");
+
+                Log.e("TAG", "onClick: "+ id );
+
+            }
+        });
+
+        driverUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(dashboard.this, Profile.class);
+                startActivity(intent);
+            }
+        });
+
+        driverLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(dashboard.this, Login.class);
+                startActivity(intent);
+                finish();
             }
         });
 

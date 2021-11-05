@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Driver"
         android:usesCleartextTraffic="true">
-        <activity android:name="User.UserDashboard"></activity>
+        <activity android:name=".ui.layout.Profile"></activity>
+        <activity android:name="User.UserDashboard" />
         <activity android:name="util.ReceiveNotificationActivity" />
 
         <service

@@ -76,6 +76,37 @@
 
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/driverUser"
+                android:layout_width="160dp"
+                android:layout_height="match_parent"
+
+                android:layout_margin="10dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:background="@drawable/ripple_effect"
+                    android:layout_height="match_parent">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/bus5"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:text="user Info"
+                        android:textSize="24sp"
+                        app:fontFamily="@font/regular" />
+                    <ImageView
+                        android:id="@+id/bus5"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="15dp"
+                        app:srcCompat="@drawable/user" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
 
         </LinearLayout>
         <LinearLayout
@@ -90,7 +121,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout">
             <androidx.cardview.widget.CardView
-                android:id="@+id/user"
+
+                android:id="@+id/driverLogout"
                 android:layout_width="160dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -108,7 +140,7 @@
                         android:layout_below="@id/bus1"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:text="User"
+                        android:text="Log out"
                         android:textSize="24sp"
                         app:fontFamily="@font/regular" />
                     <ImageView

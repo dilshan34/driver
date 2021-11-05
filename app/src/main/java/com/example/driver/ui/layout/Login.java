@@ -94,6 +94,7 @@ public class Login extends AppCompatActivity {
                             JSONArray jsonArray = new JSONArray(response);
                             JSONObject jsonObject=jsonArray.getJSONObject(0);
                             String code=jsonObject.getString("type");
+                            nic = jsonObject.getString("nic");
                             Log.e("Response", "onResponse: "+code );
 
                             if(code.equals("Driver"))

@@ -16,6 +16,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.driver.R;
+import com.example.driver.ui.layout.Login;
+import com.example.driver.ui.layout.Profile;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
@@ -28,7 +30,7 @@ import Driver.MapsActivity;
 import Driver.dashboard;
 
 public class UserDashboard extends AppCompatActivity {
-    CardView user,driver;
+    CardView user,userInfo,userLogout;
     private RequestQueue mRequestQue;
     private String URL = "https://fcm.googleapis.com/fcm/send";
 
@@ -38,7 +40,8 @@ public class UserDashboard extends AppCompatActivity {
         setContentView(R.layout.activity_user_dashboard);
 
         user = findViewById(R.id.userDashboard);
-        driver = findViewById(R.id.driver);
+        userInfo = findViewById(R.id.userInfo);
+        userLogout = findViewById(R.id.userLogout);
 
         mRequestQue = Volley.newRequestQueue(this);
         FirebaseMessaging.getInstance().subscribeToTopic("news");
@@ -52,15 +55,24 @@ public class UserDashboard extends AppCompatActivity {
             }
         });
 
-//        driver.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                sendNotification();
-//                Intent intent = new Intent(dashboard.this, MapsActivity.class);
-//                startActivity(intent);
-//
-//            }
-//        });
+        userInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(UserDashboard.this, Profile.class);
+                startActivity(intent);
+
+            }
+        });
+
+        userLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserDashboard.this, Login.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
 
 

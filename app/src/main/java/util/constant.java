@@ -7,4 +7,5 @@ public class constant {
     public static final String login_url = base+"login.php";
     public static final String checkNICr_url = base+"checkNIC.php";
     public static final String user_url = base+"uploadUserDetails.php";
+    public static final String getUserDetails_url = base+"getUserDetails.php";
 }
