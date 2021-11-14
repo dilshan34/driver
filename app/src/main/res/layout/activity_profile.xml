@@ -19,7 +19,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:src="@drawable/user"
+            android:src="@drawable/profile"
             />
 
         <TextView
@@ -156,6 +156,7 @@
             android:id="@+id/profilelogout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:color="@color/colorPrimary"
             android:text="LogOut"/>
     </LinearLayout>
 

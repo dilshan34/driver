@@ -52,7 +52,6 @@ public class Login extends AppCompatActivity {
 
         txtpassword = (EditText) findViewById(R.id.txtpassword);
         btnlogin = (ImageButton) findViewById(R.id.btnlogin);
-        txtcreateAccount = (TextView) findViewById(R.id.txtcreateAccount);
 
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,15 +69,7 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        txtcreateAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Intent intent = new Intent(Login.this,Signup.class);
-                startActivity(intent);
-
-            }
-        });
     }
 
 
@@ -93,11 +84,11 @@ public class Login extends AppCompatActivity {
                             Log.e("response", "onResponse: "+response );
                             JSONArray jsonArray = new JSONArray(response);
                             JSONObject jsonObject=jsonArray.getJSONObject(0);
-                            String code=jsonObject.getString("type");
+                            String user=jsonObject.getString("type");
                             nic = jsonObject.getString("nic");
-                            Log.e("Response", "onResponse: "+code );
+                            Log.e("Response", "onResponse: "+user );
 
-                            if(code.equals("Driver"))
+                            if(user.equals("Driver"))
                             {
                                 Toast.makeText(Login.this,"Login Success",Toast.LENGTH_SHORT).show();
 
@@ -108,7 +99,7 @@ public class Login extends AppCompatActivity {
 
 
                             }
-                            else if(code.equals("Employee"))
+                            else if(user.equals("Employee"))
                             {
                                 Toast.makeText(Login.this,"Login Success",Toast.LENGTH_SHORT).show();
 

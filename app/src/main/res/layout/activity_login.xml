@@ -152,23 +152,7 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <TextView
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="serif"
-            android:text="Don't have you Account?"
-            android:textColor="@color/border"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/txtcreateAccount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="serif"
-            android:text=" Create"
-            android:textColor="#141414"
-            android:textSize="12sp" />
 
     </LinearLayout>
 

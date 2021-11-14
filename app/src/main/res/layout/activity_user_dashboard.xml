@@ -29,18 +29,19 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="0dp"
-            android:layout_height="160dp"
+            android:layout_height="120dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView"
-            app:srcCompat="@drawable/login_pic"
+            app:srcCompat="@drawable/taxi"
             tools:ignore="MissingConstraints" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="175dp"
+            android:layout_marginTop="60dp"
             android:orientation="horizontal"
             android:padding="10dp"
             android:gravity="center"
@@ -68,16 +69,16 @@
                         android:layout_below="@id/bus1"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:text="Driver Location"
-                        android:textSize="24sp"
+                        android:text="Track Location"
+                        android:textSize="16sp"
                         app:fontFamily="@font/regular" />
                     <ImageView
                         android:id="@+id/bus1"
-                        android:layout_width="75dp"
-                        android:layout_height="75dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="15dp"
-                        app:srcCompat="@drawable/user_map" />
+                        app:srcCompat="@drawable/route" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
@@ -101,15 +102,15 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
                         android:text="User Info"
-                        android:textSize="24sp"
+                        android:textSize="16sp"
                         app:fontFamily="@font/regular" />
                     <ImageView
                         android:id="@+id/bus3"
-                        android:layout_width="75dp"
-                        android:layout_height="75dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="15dp"
-                        app:srcCompat="@drawable/user" />
+                        app:srcCompat="@drawable/profile" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
@@ -146,15 +147,15 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
                         android:text="Log out"
-                        android:textSize="24sp"
+                        android:textSize="16sp"
                         app:fontFamily="@font/regular" />
                     <ImageView
                         android:id="@+id/bus"
-                        android:layout_width="75dp"
-                        android:layout_height="75dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="15dp"
-                        app:srcCompat="@drawable/driver" />
+                        app:srcCompat="@drawable/logout" />
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>

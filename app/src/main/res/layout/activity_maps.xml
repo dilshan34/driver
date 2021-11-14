@@ -36,6 +36,7 @@
         android:src="@drawable/warning"
         android:textColor="#ffffff" />
     <ImageButton
+        android:visibility="gone"
         android:id="@+id/btnDistance"
         android:src="@drawable/chat"
         android:layout_width="50dp"

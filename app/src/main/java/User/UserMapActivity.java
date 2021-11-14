@@ -116,12 +116,12 @@ public class UserMapActivity extends FragmentActivity implements OnMapReadyCallb
 
                             userDistance.setText(String.format("%.2f" +"KM", distance / 1000) );
 
-                            float y1 = (float) (distance / 1000);
+                            float dist = (float) (distance / 1000);
                             DecimalFormat df = new DecimalFormat("#.0");
-                            y1 = Float.valueOf(df.format(y1));
+                            dist = Float.valueOf(df.format(dist));
                             // Toast.makeText(MapsActivity.this, "Vehicle in 1km ahead \n "+y1, Toast.LENGTH_SHORT).show();
 
-                            if(y1 == 1 ){
+                            if(dist == 1 ){
 
                                 Toast.makeText(UserMapActivity.this, "Vehicle in 1km ahead \n ", Toast.LENGTH_SHORT).show();
 
