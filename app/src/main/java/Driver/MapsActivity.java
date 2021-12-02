@@ -66,7 +66,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String URL = "https://fcm.googleapis.com/fcm/send";
     private TextView distancePoint;
     LatLng sydney = new LatLng(-34, 151);
-    LatLng weerawila = new LatLng(6.255709999999999,81.22725);
+    LatLng weerawila = new LatLng(6.8213, 80.0416);
     Double distance;
     Marker userMarker;
 

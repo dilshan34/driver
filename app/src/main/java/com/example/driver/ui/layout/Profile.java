@@ -31,7 +31,7 @@ import util.constant;
 
 public class Profile extends AppCompatActivity {
 
-    String id = "123";
+    String id ;
     private TextView name,address,userNic,type,head;
     Button profileLogout;
 
@@ -40,7 +40,8 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        // id = getIntent().getStringExtra("nic");
+         id = getIntent().getStringExtra("nic");
+        Log.e("TAG", "onCreate id: "+id );
 
         name = findViewById(R.id.name);
         address = findViewById(R.id.address);

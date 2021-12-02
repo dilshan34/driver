@@ -43,6 +43,11 @@ public class UserDashboard extends AppCompatActivity {
         userInfo = findViewById(R.id.userInfo);
         userLogout = findViewById(R.id.userLogout);
 
+        String id = getIntent().getStringExtra("nic");
+        String lati = getIntent().getStringExtra("lati");
+        String longi = getIntent().getStringExtra("longi");
+        Log.e("TAG", "longi: "+longi );
+
         mRequestQue = Volley.newRequestQueue(this);
         FirebaseMessaging.getInstance().subscribeToTopic("news");
 
@@ -50,6 +55,8 @@ public class UserDashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UserDashboard.this, UserMapActivity.class);
+                intent.putExtra("lati",lati);
+                intent.putExtra("longi",longi);
                 startActivity(intent);
 
             }
@@ -60,6 +67,7 @@ public class UserDashboard extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(UserDashboard.this, Profile.class);
+                intent.putExtra("nic",id);
                 startActivity(intent);
 
             }

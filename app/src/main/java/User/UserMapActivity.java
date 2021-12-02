@@ -12,6 +12,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -53,7 +54,10 @@ public class UserMapActivity extends FragmentActivity implements OnMapReadyCallb
     ImageButton chat;
     private TextView userDistance;
     Double distance;
-    LatLng weerawila = new LatLng(6.255709999999999,81.22725);
+
+    String lati,longi;
+    float latti,longgi;
+    LatLng weerawila = new LatLng(latti,longgi);
 
     private final int MIN_TIME = 1000;
     private final int MIN_DISTANCE = 1;
@@ -63,7 +67,16 @@ public class UserMapActivity extends FragmentActivity implements OnMapReadyCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_map);
 
+
         chat = findViewById(R.id.chat);
+
+         lati = getIntent().getStringExtra("lati");
+         longi = getIntent().getStringExtra("longi");
+
+         latti = Float.valueOf(lati);
+        longgi = Float.valueOf(longi);
+
+        Log.e("TAG", "latti: "+latti );
 
         manager = (LocationManager) getSystemService(LOCATION_SERVICE);
         userDistance = findViewById(R.id.userDistance);
@@ -102,13 +115,13 @@ public class UserMapActivity extends FragmentActivity implements OnMapReadyCallb
 
                             // myMarker.setPosition(new LatLng(6.1429,81.1212));
                             myMarker.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
-                            mMap.moveCamera(CameraUpdateFactory.newLatLng(weerawila));
-                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(weerawila, 12.0f));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(latti,longgi)));
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latti,longgi), 12.0f));
                             Circle circle = mMap.addCircle(new CircleOptions()
-                                    .center(weerawila)
+                                    .center(new LatLng(latti,longgi))
                                     .radius(1000)
                                     .strokeColor(Color.RED));
-                            distance = SphericalUtil.computeDistanceBetween(new LatLng(location.getLatitude(),location.getLongitude()), weerawila);
+                            distance = SphericalUtil.computeDistanceBetween(new LatLng(location.getLatitude(),location.getLongitude()), new LatLng(latti,longgi));
                             // Toast.makeText(MapsActivity.this, "Distance between Sydney and Brisbane is \n " + String.format("%.2f", distance / 1000) + "km", Toast.LENGTH_SHORT).show();
 
                            
@@ -183,7 +196,7 @@ public class UserMapActivity extends FragmentActivity implements OnMapReadyCallb
         LatLng sydney = new LatLng(-34, 151);
        // LatLng weerawila = new LatLng(6.255709999999999,81.22725);
         myMarker=  mMap.addMarker(new MarkerOptions().position(sydney).title("Driver"));
-        mMap.addMarker(new MarkerOptions().position(weerawila).title("User"));
+        mMap.addMarker(new MarkerOptions().position( new LatLng(latti,longgi)).title("User"));
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setAllGesturesEnabled(true);
 

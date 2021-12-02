@@ -38,7 +38,7 @@ public class Login extends AppCompatActivity {
 
     EditText txtpassword;
     ImageButton btnlogin;
-    String username,password,uname,nic;
+    String username,password,uname,nic,lati,longi;
     private ProgressDialog loadingbar;
     private Toolbar mtoolbar;
     TextView txtcreateAccount;
@@ -86,7 +86,9 @@ public class Login extends AppCompatActivity {
                             JSONObject jsonObject=jsonArray.getJSONObject(0);
                             String user=jsonObject.getString("type");
                             nic = jsonObject.getString("nic");
-                            Log.e("Response", "onResponse: "+user );
+                            lati = jsonObject.getString("latitude");
+                            longi = jsonObject.getString("longitude");
+                            Log.e("Response", "onResponse: longi"+longi );
 
                             if(user.equals("Driver"))
                             {
@@ -94,6 +96,7 @@ public class Login extends AppCompatActivity {
 
                                 Intent intent=new Intent(Login.this, dashboard.class);
                                 intent.putExtra("nic",nic);
+
                                 startActivity(intent);
 
 
@@ -105,6 +108,8 @@ public class Login extends AppCompatActivity {
 
                                 Intent intent=new Intent(Login.this, UserDashboard.class);
                                 intent.putExtra("nic",nic);
+                                intent.putExtra("lati",lati);
+                                intent.putExtra("longi",longi);
                                 startActivity(intent);
                             }
                             else {

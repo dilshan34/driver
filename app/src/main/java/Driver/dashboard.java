@@ -47,6 +47,10 @@ public class dashboard extends AppCompatActivity {
         mRequestQue = Volley.newRequestQueue(this);
         FirebaseMessaging.getInstance().subscribeToTopic("news");
 
+        String id = getIntent().getStringExtra("nic");
+
+        Log.e("TAG", "onClick: driver id"+ id );
+
 
 
         driver.setOnClickListener(new View.OnClickListener() {
@@ -56,9 +60,7 @@ public class dashboard extends AppCompatActivity {
                 Intent intent = new Intent(dashboard.this, MapsActivity.class);
                 startActivity(intent);
 
-                String id = getIntent().getStringExtra("nic");
 
-                Log.e("TAG", "onClick: "+ id );
 
             }
         });
@@ -67,6 +69,7 @@ public class dashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(dashboard.this, Profile.class);
+                intent.putExtra("nic",id);
                 startActivity(intent);
             }
         });
