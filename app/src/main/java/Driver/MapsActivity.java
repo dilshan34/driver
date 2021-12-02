@@ -69,7 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LatLng weerawila = new LatLng(6.8213, 80.0416);
     Double distance;
     Marker userMarker;
-    String lati,longi;
+    String lati,longi,alert;
     float latti,longgi;
 
     private final int MIN_TIME = 1000;
@@ -258,8 +258,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             y1 = Float.valueOf(df.format(y1));
                            // Toast.makeText(MapsActivity.this, "Vehicle in 1km ahead \n "+y1, Toast.LENGTH_SHORT).show();
 
-                            if(y1 == 1 ){
+                            if(y1 == 1 && alert == null){
                                 sendDistanceAlert();
+                                alert = "1";
                                 //Toast.makeText(MapsActivity.this, "Vehicle in 1km ahead \n ", Toast.LENGTH_SHORT).show();
 
                             }

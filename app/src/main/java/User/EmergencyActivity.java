@@ -61,7 +61,7 @@ public class EmergencyActivity extends AppCompatActivity {
         try {
             mainObj.put("to","/topics/"+"news");
             JSONObject notificationObj = new JSONObject();
-            notificationObj.put("title","Dilshan Sachinthana");
+            notificationObj.put("title","Employee");
             notificationObj.put("body",getValue);
 
             mainObj.put("notification",notificationObj);
