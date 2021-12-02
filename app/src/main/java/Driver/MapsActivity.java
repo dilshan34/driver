@@ -69,6 +69,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LatLng weerawila = new LatLng(6.8213, 80.0416);
     Double distance;
     Marker userMarker;
+    String lati,longi;
+    float latti,longgi;
 
     private final int MIN_TIME = 1000;
     private final int MIN_DISTANCE = 1;
@@ -80,6 +82,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         emergency = (ImageButton) findViewById(R.id.emergency);
         btnDistance = (ImageButton) findViewById(R.id.btnDistance);
         distancePoint = findViewById(R.id.distancePoint);
+
+        lati = getIntent().getStringExtra("lati");
+        longi = getIntent().getStringExtra("longi");
+
+        latti = Float.valueOf(lati);
+        longgi = Float.valueOf(longi);
+
+        Log.e("TAG", "latti: "+latti );
 
         if (getIntent().hasExtra("category")){
             Intent intent = new Intent(MapsActivity.this, ReceiveNotificationActivity.class);
@@ -112,7 +122,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnDistance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                distance = SphericalUtil.computeDistanceBetween(sydney, weerawila);
+                distance = SphericalUtil.computeDistanceBetween(sydney, new LatLng(latti,longgi));
                 Toast.makeText(MapsActivity.this, "Distance between Sydney and Brisbane is \n " + String.format("%.2f", distance / 1000) + "km", Toast.LENGTH_SHORT).show();
                 distancePoint.setText( String.format("%.2f" +"KM", distance / 1000));
             }
@@ -236,7 +246,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //                                    .center(new  LatLng(6.2421,81.2292))
 //                                    .radius(1000)
 //                                    .strokeColor(Color.RED));
-                            distance = SphericalUtil.computeDistanceBetween(new LatLng(location.getLatitude(),location.getLongitude()), weerawila);
+                            distance = SphericalUtil.computeDistanceBetween(new LatLng(location.getLatitude(),location.getLongitude()), new LatLng(latti,longgi));
                            // Toast.makeText(MapsActivity.this, "Distance between Sydney and Brisbane is \n " + String.format("%.2f", distance / 1000) + "km", Toast.LENGTH_SHORT).show();
                             distancePoint.setText( String.format("%.2f" +"KM", distance / 1000));
 
@@ -319,7 +329,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in Sydney and move the camera
 
         myMarker=  mMap.addMarker(new MarkerOptions().position(sydney).title("Driver"));
-        userMarker = mMap.addMarker(new MarkerOptions().position(weerawila).title("User"));
+        userMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(latti,longgi)).title("User"));
 
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setAllGesturesEnabled(true);

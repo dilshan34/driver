@@ -14,12 +14,14 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.driver.R;
 import com.example.driver.ui.layout.Login;
 import com.example.driver.ui.layout.Profile;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,12 +29,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import User.UserMapActivity;
+import util.constant;
 
 public class dashboard extends AppCompatActivity {
 
     CardView user,driver,driverUser,driverLogout;
     private RequestQueue mRequestQue;
     private String URL = "https://fcm.googleapis.com/fcm/send";
+    String username,password,uname,nic,lati,longi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +53,18 @@ public class dashboard extends AppCompatActivity {
 
         String id = getIntent().getStringExtra("nic");
 
-        Log.e("TAG", "onClick: driver id"+ id );
 
 
+        getCordinates();
 
         driver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendNotification();
                 Intent intent = new Intent(dashboard.this, MapsActivity.class);
+                intent.putExtra("lati",lati);
+                intent.putExtra("longi",longi);
+                Log.e("TAG", "onClick: driver id"+ longi );
                 startActivity(intent);
 
 
@@ -129,6 +136,43 @@ public class dashboard extends AppCompatActivity {
         {
             e.printStackTrace();
         }
+    }
+
+    public void getCordinates(){
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                constant.getCordinate,new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    Log.e("response", "onResponse: "+response );
+                    JSONArray jsonArray = new JSONArray(response);
+                    JSONObject jsonObject=jsonArray.getJSONObject(0);
+                    lati = jsonObject.getString("latitude");
+                    longi = jsonObject.getString("longitude");
+                    Log.e("Response", "onResponse: longi"+longi );
+
+
+
+
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
 }
